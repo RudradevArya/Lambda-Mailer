@@ -1,0 +1,5 @@
+go to /frontend
+run  npm start go to port 3000
+
+go to backend
+run node server.js
