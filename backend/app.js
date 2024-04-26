@@ -32,8 +32,9 @@ app.post('/api/send-emails', upload.single('file'), async (req, res) => {
     fileStream
       .pipe(csv())
       .on('data', (data) => {
-        const { email, name } = data;
-        const emailParams = {
+        try {
+          const { email, name } = data;
+          const emailParams = {
           Destination: {
             ToAddresses: [email],
           },
@@ -49,8 +50,10 @@ app.post('/api/send-emails', upload.single('file'), async (req, res) => {
           },
           Source: 'fringe.xb6783746@gmail.com',
         };
-
         ses.sendEmail(emailParams).promise();
+      }catch (error) {
+        console.error('Error sending email:', error);
+      }
       })
       .on('end', () => {
         console.log('Email sending process completed!');
@@ -63,6 +66,65 @@ app.post('/api/send-emails', upload.single('file'), async (req, res) => {
 });
 
 module.exports = app;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//added try catch
+
+//         const { email, name } = data;
+//         const emailParams = {
+//           Destination: {
+//             ToAddresses: [email],
+//           },
+//           Message: {
+//             Body: {
+//               Text: {
+//                 Data: `${req.body.customMessage}\n\nRegards,\nYour App`,
+//               },
+//             },
+//             Subject: {
+//               Data: 'Your Custom Email Subject',
+//             },
+//           },
+//           Source: 'fringe.xb6783746@gmail.com',
+//         };
+
+//         ses.sendEmail(emailParams).promise();
+//       })
+//       .on('end', () => {
+//         console.log('Email sending process completed!');
+//         res.status(200).send('Emails sent successfully!');
+//       });
+//   } catch (error) {
+//     console.error('Error:', error);
+//     res.status(500).send('Error sending emails.');
+//   }
+// });
+
+
+
+//this was before removeing SQS
+
 //     // Enqueue the email sending task in SQS
 //     const sqsParams = {
 //       MessageBody: JSON.stringify({
