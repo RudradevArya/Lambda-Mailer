@@ -3,3 +3,6 @@ run  npm start go to port 3000
 
 go to backend
 run node server.js
+
+npm install nodemon """ to not manually restart the server
+type nodemon server.js instead of node server.js
